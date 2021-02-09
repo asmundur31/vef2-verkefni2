@@ -33,6 +33,7 @@ export async function query(q, values = []) {
     return result;
   } catch (e) {
     console.error('Error selecting', e);
+    return null;
   } finally {
     client.release();
   }
