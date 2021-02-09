@@ -109,13 +109,15 @@ async function saveData(req, res) {
   let { name } = data;
   const { nationalId } = data;
   const { comment } = data;
+  let anonymous = false;
   // pössum uppá að showName sé öruggt
   const showName = xss(data.showName) !== 'on';
   if (!showName) {
     name = 'Nafnlaust';
+    anonymous = true;
   }
   // pössum uppá að gögnin séu örugg þegar við vistum þau, bæði uppá xss og sql injection
-  const results = await query('INSERT INTO signatures (name,nationalId,comment) VALUES ($1,$2,$3)', [xss(name), xss(nationalId), xss(comment)]);
+  const results = await query('INSERT INTO signatures (name,nationalId,comment,anonymous) VALUES ($1,$2,$3,$4)', [xss(name), xss(nationalId), xss(comment), anonymous]);
   if (!results) { // Gekk ekki upp að vista í gagnagrunn
     return res.render('couldnt');
   }
