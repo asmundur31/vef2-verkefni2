@@ -5,8 +5,31 @@ import { query } from './db.js';
 
 export const router = express.Router();
 
-// Reglulega segðin fyrir kennitölur
-const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
+// Listi af validations
+const validation = [
+  body('name')
+    .isLength({ min: 1 })
+    .withMessage('Nafn má ekki vera tómt'),
+  body('name')
+    .isLength({ max: 128 })
+    .withMessage('Nafn má að hámarki vera 128 stafir'),
+  body('nationalId')
+    .isLength({ min: 1 })
+    .withMessage('Kennitala má ekki vera tóm'),
+  body('nationalId')
+    .matches(new RegExp('^[0-9]{6}-?[0-9]{4}$'))
+    .withMessage('Kennitala verður að vera á formi 000000-0000 eða 0000000000'),
+  body('comment')
+    .isLength({ max: 400 })
+    .withMessage('Athugasemd má að hámarki vera 400 stafir'),
+];
+
+// Listi af hreinsun á gögnum
+const sanitize = [
+  body('name').trim().escape(),
+  body('nationalId').blacklist('-'),
+  body('comment').trim().escape(),
+];
 
 /**
  * Fall sem umlykur async föll og grípur villur
@@ -128,26 +151,11 @@ router.get('/', catchErrors(form));
 router.post(
   '/',
   // Validation rules
-  body('name')
-    .isLength({ min: 1 })
-    .withMessage('Nafn má ekki vera tómt'),
-  body('name')
-    .isLength({ max: 128 })
-    .withMessage('Nafn má að hámarki vera 128 stafir'),
-  body('nationalId')
-    .isLength({ min: 1 })
-    .withMessage('Kennitala má ekki vera tóm'),
-  body('nationalId')
-    .matches(new RegExp(nationalIdPattern))
-    .withMessage('Kennitala verður að vera á formi 000000-0000 eða 0000000000'),
-  body('comment')
-    .isLength({ max: 400 })
-    .withMessage('Athugasemd má að hámarki vera 400 stafir'),
+  validation,
   // Athugum hvort gögnin uppfylli validation reglur
   catchErrors(validate),
   // Sanitize
-  body('name').trim().escape(),
-  body('nationalId').blacklist('-'),
+  sanitize,
   // Vistum gögnin í gagnagrunn
   catchErrors(saveData),
 );
