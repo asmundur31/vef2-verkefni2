@@ -1,0 +1,157 @@
+$space: 10px;
+$color: rgb(149, 170, 93);
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  background-color: rgb(253, 255, 230);
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.signatures {
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 0 2*$space;
+}
+
+.header {
+  margin: 4*$space auto 0 auto;
+  text-align: center;
+  width: 100%;
+
+  &--1 {
+    font-size: 4em;
+  }
+
+  &--2 {
+    font-size: 3em;
+  }
+
+  &--3 {
+    font-size: 1.5em;
+    margin: 2*$space auto 0 auto;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2*$space;
+  width: 100%;
+
+  &__row {
+    display: flex;
+    margin-top: 2*$space;
+  }
+
+  &__label {
+    font-size: 1.2em;
+    margin: auto;
+    width: 7em;
+
+    &--checkbox {
+      margin: auto;
+      padding-left: $space;
+    }
+  }
+
+  &__input {
+    border: 2px solid $color;
+    border-radius: 5px;
+    flex-grow: 1;
+    font-family: inherit;
+    font-size: 1.2em;
+    padding: 0.5em;
+
+    &--checkbox {
+      height: 1.5em;
+      margin: auto;
+      width: 1.5em;
+    }
+
+    &--invalid {
+      background-color: rgb(245, 112, 130);
+    }
+  }
+
+  &__row--checkbox {
+    display: flex;
+    justify-content: center;
+    margin: 2*$space auto 0 auto;
+    width: auto;
+  }
+
+  &__button {
+    background-color: #fff;
+    border: 2px solid $color;
+    border-radius: 10px;
+    font-size: 3em;
+    margin: 4*$space auto 0 auto;
+    padding: 0.2em 1em;
+    transition: background-color 0.5s;
+    width: auto;
+  }
+
+  &__button:hover {
+    background-color: $color;
+    transition: background-color 0.5s;
+  }
+
+  &__errors {
+    display: flex;
+    flex-direction: column;
+    margin: 0 $space;
+  }
+}
+
+.errors {
+  margin: 2*$space auto 0 auto;
+}
+
+.line {
+  border: 2px dotted $color;
+  margin: 3*$space 0 0 0;
+}
+
+.table {
+  border-collapse: collapse;
+  margin: 2*$space 0 0 0;
+  width: 100%;
+
+  &__signed,
+  &__name,
+  &__comment,
+  &__header {
+    border: 2px solid $color;
+    padding: 0.5em;
+  }
+}
+
+.couldnt {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+
+  &__text {
+    margin: 2*$space auto 0 auto;
+    width: 100%;
+  }
+
+  &__link {
+    margin: 2*$space auto 0 auto;
+    width: 100%;
+  }
+}
