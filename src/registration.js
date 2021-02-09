@@ -52,13 +52,16 @@ async function getSignatures() {
     // pössum að id sé örugg
     const id = xss(row.id);
     // pössum að nafnið sé öruggt
-    const name = xss(row.name);
+    let name = xss(row.name);
     // pössum að kennitalan sé örugg
     const nationalId = xss(row.nationalId);
     // pössum að athugasemdin sé örugg
     const comment = xss(row.comment);
     // pössum að nafleyndin sé örugg
     const anonymous = xss(row.anonymous);
+    if (anonymous) {
+      name = 'Nafnlaust';
+    }
     // pössum að dagsetningis sé örugg
     const date = xss(row.signed);
     const safeDate = new Date(date);
@@ -129,14 +132,13 @@ async function validate(req, res, next) {
  */
 async function saveData(req, res) {
   const data = req.body;
-  let { name } = data;
+  const { name } = data;
   const { nationalId } = data;
   const { comment } = data;
   let anonymous = false;
   // pössum uppá að showName sé öruggt
   const showName = xss(data.showName) !== 'on';
   if (!showName) {
-    name = 'Nafnlaust';
     anonymous = true;
   }
   // pössum uppá að gögnin séu örugg þegar við vistum þau, bæði uppá xss og sql injection
