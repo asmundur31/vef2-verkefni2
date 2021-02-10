@@ -10,8 +10,7 @@
     "sass-watch": "node-sass --source-map-embed --watch --recursive src/styles/styles.scss ./public/styles.css",
     "test": "concurrently npm:stylelint npm:eslint",
     "dev": "concurrently  npm:sass npm:sass-watch npm:start:dev",
-    "setup:dev": "psql vef2-2021-v2 < ./sql/schema.sql",
-    "setup": "heroku psql < ./sql/schema.sql",
+    "setup": "psql vef2-2021-v2 < ./sql/schema.sql",
     "start:dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js"
   },
